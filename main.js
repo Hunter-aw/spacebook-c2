@@ -1,5 +1,6 @@
 var SpacebookApp = function () {
-  var posts = [
+  var postsObj = {
+    posts: [
     {text: "Hello world", id: 1, comments:[
       { text: "Man, this is a comment!"},
       { text: "Man, this is a comment!"},
@@ -15,7 +16,9 @@ var SpacebookApp = function () {
       { text: "Man, this is a comment!"},
       { text: "Man, this is a comment!"}
     ]}
-  ];
+  ]
+  };
+  var posts = postsObj.posts
 
   // the current id to assign to a post
   var currentId = 4;
@@ -46,18 +49,22 @@ var SpacebookApp = function () {
 
   var renderPosts = function () {
     $posts.empty();
+    var source = $('#post-template').html();
+    var template = Handlebars.compile(source);
+    var newHTML = template(postsObj);
+    $('.posts').append(newHTML);
 
-    for (var i = 0; i < posts.length; i += 1) {
-      var post = posts[i];
-      let postComments = getComments(post.id)
-      var commentsContainer = '<div class="comments-container">' + postComments + '<div class = "comment" > </div>' +
-      '<input type="text" class="comment-name">' +
-      '<button class="btn btn-primary add-comment">Post Comment</button> </div>'
+  //   for (var i = 0; i < posts.length; i += 1) {
+  //     var post = posts[i];
+  //     let postComments = getComments(post.id)
+  //     var commentsContainer = '<div class="comments-container">' + postComments + '<div class = "comment" > </div>' +
+  //     '<input type="text" class="comment-name">' +
+  //     '<button class="btn btn-primary add-comment">Post Comment</button> </div>'
 
-      $posts.append('<div class="post" data-id=' + post.id + '>'
-        + '<a href="#" class="remove">remove</a> ' + '<a href="#" class="show-comments">comments</a> ' + post.text +
-        commentsContainer + '</div>');
-    }
+  //     $posts.append('<div class="post" data-id=' + post.id + '>'
+  //       + '<a href="#" class="remove">remove</a> ' + '<a href="#" class="show-comments">comments</a> ' + post.text +
+  //       commentsContainer + '</div>');
+  //   }
   }
 
   var removePost = function (currentPost) {
@@ -100,21 +107,21 @@ var SpacebookApp = function () {
     return commentHtml;
   }
   
-  var getComments = function (postId) {
-    var post = _findPostById(postId)
-    var commentSec = post.comments;
-    var commentText = "";      
-    for (var x =0; x < commentSec.length; x +=1) {
+  // var getComments = function (postId) {
+  //   var post = _findPostById(postId)
+  //   var commentSec = post.comments;
+  //   var commentText = "";      
+  //   for (var x =0; x < commentSec.length; x +=1) {
   
-      var comment = commentSec[x].text
-      var commentId = commentSec[x].commentId
-      commentHtml = newComment(comment)
-      commentText += commentHtml
-    }
-    let commentsDiv = '<div class =' + commentId + '>' + commentText + '</div>'
-    commentText = ""; 
-    return commentsDiv; 
-  }
+  //     var comment = commentSec[x].text
+  //     var commentId = commentSec[x].commentId
+  //     commentHtml = newComment(comment)
+  //     commentText += commentHtml
+  //   }
+  //   let commentsDiv = '<div class =' + commentId + '>' + commentText + '</div>'
+  //   commentText = ""; 
+  //   return commentsDiv; 
+  // }
   
   // var removeComment = function (currentComment) {
   //   var $clickedComment = $(currentComment).closest('.comment');
@@ -133,7 +140,7 @@ var SpacebookApp = function () {
     addComment: addComment,
     newComment: newComment,
     findPostId: findPostId,
-    getComments: getComments,
+    // getComments: getComments,
     // TODO: Implement
     // removeComment: removeComment,
     toggleComments: toggleComments
