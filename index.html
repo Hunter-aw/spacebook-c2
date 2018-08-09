@@ -38,7 +38,9 @@
       <a href="#" class="show-comments"> Comments </a>{{text}}
       <div class="comments-container">
         {{#each comments}}
-          <div class="comment" data-comment={ {commentId}}> {{text}} </div>
+          
+          <div class="comment" data-comment={{id}}> 
+            <a href="#" class="comment-remove">remove</a> {{text}} </div>
           {{/each}}
           <input type="text" class="comment-name">
           <button class="btn btn-primary add-comment"> Post Comment </button>

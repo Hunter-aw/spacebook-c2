@@ -2,19 +2,28 @@ var SpacebookApp = function () {
   var postsObj = {
     posts: [
     {text: "Hello world", id: 1, comments:[
-      { text: "Man, this is a comment!"},
-      { text: "Man, this is a comment!"},
-      { text: "Man, this is a comment!"}
+      { text: "Man, this is a comment!",
+        id: 997},
+      { text: "Man, this is a comment!",
+        id: 998},
+      { text: "Man, this is a comment!",
+        id: 999}
     ]},
     {text: "Hello world", id: 2, comments:[
-      { text: "Man, this is a comment!"},
-      { text: "Man, this is a comment!"},
-      { text: "Man, this is a comment!"}
+      { text: "Man, this is a comment!",
+        id: 997},
+      { text: "Man, this is a comment!",
+        id: 998},
+      { text: "Man, this is a comment!",
+        id: 999}
     ]},
     {text: "Hello world", id: 3, comments:[
-      { text: "Man, this is a comment!"},
-      { text: "Man, this is a comment!"},
-      { text: "Man, this is a comment!"}
+      { text: "Man, this is a comment!",
+        id: 997},
+      { text: "Man, this is a comment!",
+        id: 998},
+      { text: "Man, this is a comment!",
+        id: 999}
     ]}
   ]
   };
@@ -34,6 +43,15 @@ var SpacebookApp = function () {
       }
     }
   }
+
+  var _findCommentById = function(comments, id) {
+    for (var i=0; i<comments.length; i += 1) {
+      if (comments[i].id === id) {
+        return comments[i]
+      }
+    }
+  }
+
 
   var createPost = function (text) {
     var post = {
@@ -87,6 +105,12 @@ var SpacebookApp = function () {
     return id;
   }
 
+  var findCommentId = function (currentComment) {
+    var $clickComment = $(currentComment).closest('.comment')
+    var commentId = $clickComment.data().comment;
+    return commentId;
+  }
+
   var _createNewComment = function (text) {
     var newComment = {
       text: text,
@@ -105,6 +129,16 @@ var SpacebookApp = function () {
   var newComment = function(text) {
     var commentHtml = ('<div class="comment">' + text + '</div>')
     return commentHtml;
+  }
+
+  var removeComment = function (id, commentId) {
+
+    var post= _findPostById(id)
+    var postIndex = posts.indexOf(post)
+    var postComments = posts[postIndex].comments
+    var comment = _findCommentById(postComments, commentId)
+
+    postComments.splice(postComments.indexOf(comment), 1);
   }
   
   // var getComments = function (postId) {
@@ -140,9 +174,10 @@ var SpacebookApp = function () {
     addComment: addComment,
     newComment: newComment,
     findPostId: findPostId,
+    findCommentId: findCommentId,
     // getComments: getComments,
     // TODO: Implement
-    // removeComment: removeComment,
+    removeComment: removeComment,
     toggleComments: toggleComments
   }
 }
@@ -173,6 +208,14 @@ $('.posts').on('click','.add-comment', function () {
   app.addComment(comment, postId);
   app.renderPosts();
 });
+
+$('.posts').on('click','.comment-remove', function(){
+  var commentId = app.findCommentId(this);
+  var postId = app.findPostId(this);
+  app.removeComment(postId, commentId);
+  app.renderPosts()
+
+})
 
 $('.posts').on('click','.show-comments', function () {
   app.toggleComments(this);
