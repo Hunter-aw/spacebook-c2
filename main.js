@@ -134,7 +134,7 @@ var SpacebookApp = function () {
 
     var post= _findPostById(id)
     var postIndex = posts.indexOf(post)
-    debugger
+    // debugger
     var postComments = posts[postIndex].comments
     var comment = _findCommentById(postComments, commentId)
 
