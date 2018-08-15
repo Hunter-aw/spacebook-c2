@@ -127,14 +127,14 @@ var SpacebookApp = function () {
 
   }
   var newComment = function(text) {
-    var commentHtml = ('<div class="comment">' + text + '</div>')
-    return commentHtml;
+    return ('<div class="comment">' + text + '</div>')
   }
 
   var removeComment = function (id, commentId) {
 
     var post= _findPostById(id)
     var postIndex = posts.indexOf(post)
+    debugger
     var postComments = posts[postIndex].comments
     var comment = _findCommentById(postComments, commentId)
 
