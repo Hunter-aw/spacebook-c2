@@ -3,31 +3,34 @@
      */
 
 class PostsRequester {
-    constructor(postsRenderer) {
-        this.postsRenderer = postsRenderer;    }
     fetchPosts() {
-        $.get('posts', function(posts){
+        return $.get('posts', function(posts){
             console.log(posts)
         })
-        .done((posts) => {this.postsRenderer.renderPosts(posts)})
-        .catch((err)=> {throw err})
     }
     addPostsToDB(post) {
-        $.post('posts', {text: post}, function(post){console.log(post)})
-        .done(() => {console.log('post successfuly added')})
-        .done(() => {this.fetchPosts()})
+        return $.post('posts', {text: post}, function(post){
+            console.log(post)
+        })
         .catch((err)=> {throw err})
     }
     deletePost(id) {
-        $.ajax({
+        return $.ajax({
             method: 'delete',
             url: 'delete',
                 data: {id: id}
         })
-        .done(() => {console.log('post successfuly deleted')})
-        .done(() => {this.fetchPosts()})
+        .then(() => {console.log('post successfuly deleted')})
         .catch((err)=> {throw err})
-    }      
+    }
+    addComment(postId, comment) {
+        console.log(comment)
+        return $.post('comment', {postId: postId, text: comment.text, user: comment.user}, function(post){
+            console.log(JSON.stringify(post) + "before addition")
+        })
+        .catch ((err)=> {throw err})
+        // .then((post) => console.log(post + "after addition"))
+    }  
 };
 
 export default PostsRequester

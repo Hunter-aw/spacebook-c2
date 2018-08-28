@@ -9,7 +9,11 @@ let postsRequester = new PostsRequester(postsRenderer)
 let postsRepository = new PostsRepository(postsRequester);
 let eventsHandler = new EventsHandler(postsRepository, postsRenderer);
 
-postsRequester.fetchPosts();
+postsRepository.initializePost()
+.then(() => {
+    console.log('weve come this far')
+    postsRenderer.renderPosts(postsRepository.posts)
+})
 eventsHandler.registerAddPost();
 eventsHandler.registerRemovePost();
 eventsHandler.registerToggleComments();

@@ -6,19 +6,28 @@ class PostsRepository {
         this.postsRequester = postsRequester
         this.posts = []//postsRequester.fetchPosts();
     }
-
+    initializePost() {
+        return this.postsRequester.fetchPosts().then((posts) => {
+            this.posts = posts
+        })
+    }
+    
     addPost(postText) {
-        this.postsRequester.addPostsToDB(postText)
-        // this.posts.push({ text: postText, comments: [] });
+        console.log('why like this');
+        return this.postsRequester.addPostsToDB(postText)
+        .then((newPost) => {this.posts.push(newPost); console.log('added new post')})
     }
 
     removePost(index, postId) {
-        // this.posts.splice(index, 1);
-        this.postsRequester.deletePost(postId)
+        return this.postsRequester.deletePost(postId)
+        .then(() => this.posts.splice(index, 1))
     }
     
-    addComment(newComment, postIndex) {
-        this.posts[postIndex].comments.push(newComment);
+    addComment(newComment, postIndex, postId) {
+        return this.postsRequester.addComment(postId, newComment)
+        .then((post) => {
+            console.log(JSON.stringify(post))
+            this.posts[postIndex].comments.push((post).comments[post.comments.length-1])});   
     };
 
     deleteComment(postIndex, commentIndex) {

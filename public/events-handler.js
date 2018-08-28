@@ -12,8 +12,8 @@ class EventsHandler {
             if ($input.val() === "") {
                 alert("Please enter text!"); 
             } else {
-                this.postsRepository.addPost($input.val());
-                // this.postsRequester.fetchPosts();
+                this.postsRepository.addPost($input.val())
+                .then(() => this.postsRenderer.renderPosts(this.postsRepository.posts))
                 $input.val("");
             }
             });        
@@ -24,8 +24,8 @@ class EventsHandler {
             let index = $(event.currentTarget).closest('.post').index();
             let postId =$(event.currentTarget).closest('.post').data().id
             console.log(postId)
-            this.postsRepository.removePost(index, postId);
-            this.postsRenderer.renderPosts(this.postsRepository.posts);
+            this.postsRepository.removePost(index, postId)
+            .then(() => this.postsRenderer.renderPosts(this.postsRepository.posts));
           });
 
     }
@@ -49,9 +49,12 @@ class EventsHandler {
           
             let postIndex = $(event.currentTarget).closest('.post').index();
             let newComment = { text: $comment.val(), user: $user.val() };
-          
-            this.postsRepository.addComment(newComment, postIndex);
-            this.postsRenderer.renderComments(this.postsRepository.posts, postIndex);
+            let postId =$(event.currentTarget).closest('.post').data().id
+            
+            console.log("you found me")
+            this.postsRepository.addComment(newComment, postIndex, postId)
+            .then(() => console.log('do we get here'))
+            .then(() => this.postsRenderer.renderComments(this.postsRepository.posts, postIndex));
             $comment.val("");
             $user.val("");
           });

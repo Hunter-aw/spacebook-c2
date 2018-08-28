@@ -34,4 +34,23 @@ router.delete('/delete', (req, res) => {
     else res.send(post)
   })
 })
+
+router.post('/comment', (req, res ) => {
+  console.log("let's add a comment!")
+  console.log(req.body.postId)
+  Post.findByIdAndUpdate(req.body.postId, 
+    {$push: 
+      { comments: 
+        {text: req.body.text,
+         user: req.body.user}
+      }
+    }, null, (err, post) => {
+      if (err) throw err;
+    }
+  ) 
+  Post.findById((req.body.postId), (err, post) => {
+    if (err) throw err;
+    else res.send(post)
+  })
+})
 module.exports = router
