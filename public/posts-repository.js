@@ -2,12 +2,15 @@
      * @class Responsible for storing and manipulating Spacebook posts, in-memory
      */
 class PostsRepository {
-    constructor() {
-        this.posts = [];
+    constructor(postsRequester) {
+        this.postsRequester = postsRequester
+        this.posts = []//postsRequester.fetchPosts();
     }
 
     addPost(postText) {
-        this.posts.push({ text: postText, comments: [] });
+        this.postsRequester.addPostsToDB(postText)
+        this.postsRequester.fetchPosts();
+        // this.posts.push({ text: postText, comments: [] });
     }
 
     removePost(index) {

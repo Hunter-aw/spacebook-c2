@@ -12,10 +12,19 @@ const router = express.Router()
 router.get('/posts', (req, res) => {
     console.log("I'm here bitches")
     Post.find({}, (err, posts) =>{
-      console.log("help me")
       if (err) throw err;
       else res.send(posts)
     })
+})
+router.post('/posts', (req, res) => {
+  console.log(req.body)
+  let newPost = new Post ({
+    text: (req.body).text,
+    comments: []
+  })
+  console.log(newPost)
+  newPost.save()
+  res.send(newPost)
 })
 
 module.exports = router

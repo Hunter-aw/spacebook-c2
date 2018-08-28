@@ -1,7 +1,8 @@
 class EventsHandler {
-    constructor(postsRepository, postsRenderer) {
+    constructor(postsRepository, postsRenderer, postsRequester) {
         this.postsRepository = postsRepository;
         this.postsRenderer = postsRenderer;
+        this.postsRequester=postsRequester
         this.$posts = $(".posts");
     }
 
@@ -12,7 +13,7 @@ class EventsHandler {
                 alert("Please enter text!"); 
             } else {
                 this.postsRepository.addPost($input.val());
-                this.postsRenderer.renderPosts(this.postsRepository.posts);
+                // this.postsRequester.fetchPosts();
                 $input.val("");
             }
             });        
