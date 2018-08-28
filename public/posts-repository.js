@@ -9,12 +9,12 @@ class PostsRepository {
 
     addPost(postText) {
         this.postsRequester.addPostsToDB(postText)
-        this.postsRequester.fetchPosts();
         // this.posts.push({ text: postText, comments: [] });
     }
 
-    removePost(index) {
-        this.posts.splice(index, 1);
+    removePost(index, postId) {
+        // this.posts.splice(index, 1);
+        this.postsRequester.deletePost(postId)
     }
     
     addComment(newComment, postIndex) {

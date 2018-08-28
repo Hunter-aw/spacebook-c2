@@ -26,5 +26,12 @@ router.post('/posts', (req, res) => {
   newPost.save()
   res.send(newPost)
 })
-
+router.delete('/delete', (req, res) => {
+  console.log("it's deleting time")
+  console.log(req.body.id)
+  Post.findByIdAndRemove((req.body.id), (err, post) => {
+    if (err) throw err;
+    else res.send(post)
+  })
+})
 module.exports = router

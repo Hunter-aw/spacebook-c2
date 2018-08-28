@@ -15,8 +15,19 @@ class PostsRequester {
     addPostsToDB(post) {
         $.post('posts', {text: post}, function(post){console.log(post)})
         .done(() => {console.log('post successfuly added')})
+        .done(() => {this.fetchPosts()})
         .catch((err)=> {throw err})
     }
+    deletePost(id) {
+        $.ajax({
+            method: 'delete',
+            url: 'delete',
+                data: {id: id}
+        })
+        .done(() => {console.log('post successfuly deleted')})
+        .done(() => {this.fetchPosts()})
+        .catch((err)=> {throw err})
+    }      
 };
 
 export default PostsRequester
