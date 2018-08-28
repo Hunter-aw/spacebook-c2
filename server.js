@@ -29,3 +29,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.listen(SERVER_PORT, () => {
   console.log("Server started on port " + SERVER_PORT);
 });
+
+let post1 = new Post ({
+  text: "I like so totally love spacebook",
+  comments: []
+})
+post1.comments.push({text: "Wow you're so cool", user: "Michele"})
+post1.comments.push({text: "ugh I wish I was you", user: "LaShawnda"})
+post1.save()
+
+let post2 = new Post ({
+  text: "I wonder if monkeys know they're monkeys?",
+  comments: []
+})
+post2.comments.push({text: "Omg so insightful", user: "Dahrell"})
+post2.comments.push({text: "you littttterally just changed my life", user: "LaShawnda"})
+post2.save()
