@@ -18,18 +18,23 @@ class PostsRequester {
         return $.ajax({
             method: 'delete',
             url: 'delete',
-                data: {id: id}
+            data: {id: id}
         })
-        .then(() => {console.log('post successfuly deleted')})
         .catch((err)=> {throw err})
     }
     addComment(postId, comment) {
         console.log(comment)
         return $.post('comment', {postId: postId, text: comment.text, user: comment.user}, function(post){
-            console.log(JSON.stringify(post) + "before addition")
-        })
+        console.log(post)})
         .catch ((err)=> {throw err})
-        // .then((post) => console.log(post + "after addition"))
+    }
+    deleteComment(postId, commentId) {
+        return $.ajax({
+            method: 'delete',
+            url: 'deletecomment',
+            data: {postId: postId, commentId: commentId}
+        })
+        .catch((err) => {throw err})
     }  
 };
 

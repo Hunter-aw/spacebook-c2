@@ -23,7 +23,6 @@ class EventsHandler {
         this.$posts.on('click', '.remove-post', (event) => {
             let index = $(event.currentTarget).closest('.post').index();
             let postId =$(event.currentTarget).closest('.post').data().id
-            console.log(postId)
             this.postsRepository.removePost(index, postId)
             .then(() => this.postsRenderer.renderPosts(this.postsRepository.posts));
           });
@@ -50,10 +49,7 @@ class EventsHandler {
             let postIndex = $(event.currentTarget).closest('.post').index();
             let newComment = { text: $comment.val(), user: $user.val() };
             let postId =$(event.currentTarget).closest('.post').data().id
-            
-            console.log("you found me")
             this.postsRepository.addComment(newComment, postIndex, postId)
-            .then(() => console.log('do we get here'))
             .then(() => this.postsRenderer.renderComments(this.postsRepository.posts, postIndex));
             $comment.val("");
             $user.val("");
@@ -63,11 +59,12 @@ class EventsHandler {
 
     registerRemoveComment() {
         this.$posts.on('click', '.remove-comment', (event) => {
-            let $commentsList = $(event.currentTarget).closest('.post').find('.comments-list');
             let postIndex = $(event.currentTarget).closest('.post').index();
             let commentIndex = $(event.currentTarget).closest('.comment').index();
-            this.postsRepository.deleteComment(postIndex, commentIndex);
-            this.postsRenderer.renderComments(this.postsRepository.posts, postIndex);
+            let postId = $(event.currentTarget).closest('.post').data().id
+            let commentId = $(event.currentTarget).closest('.comment').data().id
+            this.postsRepository.deleteComment(postIndex, commentIndex, postId, commentId)
+            .then(() => this.postsRenderer.renderComments(this.postsRepository.posts, postIndex));
         });
     }
 }

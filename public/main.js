@@ -11,7 +11,6 @@ let eventsHandler = new EventsHandler(postsRepository, postsRenderer);
 
 postsRepository.initializePost()
 .then(() => {
-    console.log('weve come this far')
     postsRenderer.renderPosts(postsRepository.posts)
 })
 eventsHandler.registerAddPost();

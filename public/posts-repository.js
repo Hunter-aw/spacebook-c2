@@ -9,29 +9,39 @@ class PostsRepository {
     initializePost() {
         return this.postsRequester.fetchPosts().then((posts) => {
             this.posts = posts
-        })
-    }
+        });
+    };
     
     addPost(postText) {
-        console.log('why like this');
         return this.postsRequester.addPostsToDB(postText)
-        .then((newPost) => {this.posts.push(newPost); console.log('added new post')})
-    }
+        .then((newPost) => {
+            this.posts.push(newPost); 
+            console.log('added new post')
+        });
+    };
 
     removePost(index, postId) {
         return this.postsRequester.deletePost(postId)
-        .then(() => this.posts.splice(index, 1))
-    }
+        .then(() => {
+            this.posts.splice(index, 1); 
+            console.log('post succesfully removed')
+        });
+    };
     
     addComment(newComment, postIndex, postId) {
         return this.postsRequester.addComment(postId, newComment)
         .then((post) => {
-            console.log(JSON.stringify(post))
-            this.posts[postIndex].comments.push((post).comments[post.comments.length-1])});   
+            this.posts[postIndex].comments.push((post).comments[post.comments.length-1]);
+            console.log('added new comment')
+        });   
     };
 
-    deleteComment(postIndex, commentIndex) {
-        this.posts[postIndex].comments.splice(commentIndex, 1);
+    deleteComment(postIndex, commentIndex, postId, commentId) {
+        return this.postsRequester.deleteComment(postId, commentId)
+        .then(() => {
+            this.posts[postIndex].comments.splice(commentIndex, 1)
+            console.log('deleted comment')
+        });
       };
 }
 

@@ -16,8 +16,8 @@ router.get('/posts', (req, res) => {
       else res.send(posts)
     })
 })
+
 router.post('/posts', (req, res) => {
-  console.log(req.body)
   let newPost = new Post ({
     text: (req.body).text,
     comments: []
@@ -26,9 +26,8 @@ router.post('/posts', (req, res) => {
   newPost.save()
   res.send(newPost)
 })
+
 router.delete('/delete', (req, res) => {
-  console.log("it's deleting time")
-  console.log(req.body.id)
   Post.findByIdAndRemove((req.body.id), (err, post) => {
     if (err) throw err;
     else res.send(post)
@@ -36,21 +35,32 @@ router.delete('/delete', (req, res) => {
 })
 
 router.post('/comment', (req, res ) => {
-  console.log("let's add a comment!")
-  console.log(req.body.postId)
   Post.findByIdAndUpdate(req.body.postId, 
     {$push: 
       { comments: 
         {text: req.body.text,
          user: req.body.user}
       }
-    }, null, (err, post) => {
-      if (err) throw err;
-    }
-  ) 
-  Post.findById((req.body.postId), (err, post) => {
+    }, null).exec() 
+  .then(() => {Post.findById((req.body.postId), (err, post) => {
     if (err) throw err;
-    else res.send(post)
+    else {res.send(post)}
+    })
   })
 })
+
+router.delete('/deletecomment', (req, res) => {
+  Post.findByIdAndUpdate(req.body.postId, 
+    {$pull: 
+      {comments: {
+        _id: req.body.commentId}
+      }
+    }, null).exec()
+    .then(() => {Post.findById((req.body.postId), (err, post) => {
+      if (err) throw err;
+      else res.send(post)
+    })
+  })
+})
+
 module.exports = router
