@@ -1,0 +1,27 @@
+body {
+    background-color: #f7f7f7
+}
+img {
+    width: 70px;
+    padding-left: 0;
+    margin-left: 0; 
+}
+.container {
+    background-color: #dfe3ee;
+    padding-bottom: 17%
+}
+.post {
+    padding: 20px 10px;
+}
+
+.btn-sm {
+    margin: 5px 5px 5px 0;
+}
+
+.btn-danger {
+    margin: 5px 0 5px 10px;
+}
+
+.comments-container {
+    display: none;
+}
